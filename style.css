@@ -1,3 +1,87 @@
-body {
-    color: blue;
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 8.5vw;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    /* padding: 2rem; */
+}
+ 
+.gameBoard {
+    /* flex: auto; */
+    width: 80%;
+    height: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 6fr 6fr 6fr 1fr;
+    gap: 10px;
+    /* border: 3px solid red; */
+}
+
+.gameBoard > * {
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px rgba(30, 0, 0, 0.3); /* Add the drop shadow */
+}
+
+.gameDisplay {
+    grid-column: 1/4;
+    grid-row: 1/2;
+    font-size: 4.5vw;
+}
+.square1 {
+    grid-column: 1/2;
+    grid-row: 2/3;
+}
+
+.square2 {
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+
+.square3 {
+    grid-column: 3/4;
+    grid-row: 2/3;
+}
+
+.square4 {
+    grid-column: 1/2;
+    grid-row: 3/4;
+}
+
+.square5 {
+    grid-column: 2/3;
+    grid-row: 3/4;
+}
+
+.square6 {
+    grid-column: 3/4;
+    grid-row: 3/4;
+}
+
+.square7 {
+    grid-column: 1/2;
+    grid-row: 4/5;
+}
+
+.square8 {
+    grid-column: 2/3;
+    grid-row: 4/5;
+}
+
+.square9 {
+    grid-column: 3/4;
+    grid-row: 4/5;
+}
+
+.resetButton {
+    grid-column: 1/4;
+    grid-row: 5/6;
+    font-size: 4.5vw;
 }
