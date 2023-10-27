@@ -1,7 +1,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-size: 8.5vw;
+    font-size: 8.5vw; // One way to make scalable text. Consider using an SVG
 }
 
 .container {
@@ -10,18 +10,15 @@
     justify-content: center;
     width: 100vw;
     height: 100vh;
-    /* padding: 2rem; */
 }
  
 .gameBoard {
-    /* flex: auto; */
     width: 80%;
     height: 80%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 6fr 6fr 6fr 1fr;
     gap: 10px;
-    /* border: 3px solid red; */
 }
 
 .gameBoard > * {
@@ -30,52 +27,61 @@
     box-shadow: 2px 2px 4px rgba(30, 0, 0, 0.3); /* Add the drop shadow */
 }
 
+/* .cell {
+width: 100px;
+height: 100px;
+text-align: center;
+vertical-align: middle;
+font-size: 2em;
+cursor: pointer;
+} */
+
 .gameDisplay {
     grid-column: 1/4;
     grid-row: 1/2;
     font-size: 4.5vw;
 }
-.square1 {
+.square0 {
     grid-column: 1/2;
+    grid-row: 2/3;
+}
+
+.square1 {
+    grid-column: 2/3;
     grid-row: 2/3;
 }
 
 .square2 {
-    grid-column: 2/3;
+    grid-column: 3/4;
     grid-row: 2/3;
 }
 
 .square3 {
-    grid-column: 3/4;
-    grid-row: 2/3;
+    grid-column: 1/2;
+    grid-row: 3/4;
 }
 
 .square4 {
-    grid-column: 1/2;
+    grid-column: 2/3;
     grid-row: 3/4;
 }
 
 .square5 {
-    grid-column: 2/3;
-    grid-row: 3/4;
-}
-
-.square6 {
     grid-column: 3/4;
     grid-row: 3/4;
 }
 
-.square7 {
+.square6 {
     grid-column: 1/2;
     grid-row: 4/5;
 }
 
-.square8 {
+.square7 {
     grid-column: 2/3;
     grid-row: 4/5;
 }
 
-.square9 {
+.square8 {
     grid-column: 3/4;
     grid-row: 4/5;
 }
