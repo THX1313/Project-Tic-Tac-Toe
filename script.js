@@ -1,7 +1,7 @@
 // Gameboard module: An IIFE which returns { isCellEmpty, markCell, getBoard }
 const Gameboard = (function () {
       // Initialize board array
-  const board = ["", "", "", "", "", "", "", "", ""];
+  let board = ["", "", "", "", "", "", "", "", ""];
   let gameStatus = "playing";
 
       // Get cell is empty
@@ -18,11 +18,11 @@ const Gameboard = (function () {
         return false;
       }
 
-      function getGameStatus() {
+      function getGameStatus() { // put into gameController?
         return gameStatus;
       }
   
-      function setGameStatus(newStatus) {
+      function setGameStatus(newStatus) { // put into gameController?
         gameStatus = newStatus;
       }
   
@@ -34,20 +34,20 @@ const Gameboard = (function () {
       function setBoard(updatedBoard) {
         board = updatedBoard;
       }
-      
+        
       // Reset Gameboard
-      // function resetBoard() {
-      //   board = ["", "", "", "", "", "", "", "", ""];
-      //   gameStatus = "playing";
-      //   const cells = document.querySelectorAll('.cell');
-      //   cells.forEach((cell) => {
-      //     cell.addEventListener('click', () => cell.textContent = "");
-      //       });
-      //   GameController.updateGameDisplay("PlayerX's turn");
-      // }
+      function resetBoard(event) {  // put into gameController?
+        board = ["", "", "", "", "", "", "", "", ""];
+        gameStatus = "playing";
+        const squares = document.querySelectorAll('.square');
+        squares.forEach((sqr) => {
+          squares.textContent = "";
+            });
+        GameController.updateGameDisplay("Player X");
+      }
   
       // Expose all the functions defined in the module
-      return { isCellEmpty, markCell, getBoard, setBoard, getGameStatus, setGameStatus };
+      return { isCellEmpty, markCell, getBoard, setBoard, getGameStatus, setGameStatus, resetBoard };
     })();
 
   // Player factory function)
@@ -70,52 +70,12 @@ const Gameboard = (function () {
       currentPlayer = currentPlayer === playerX ? playerO : playerX;
       updateGameDisplay(currentPlayer.name);
     }
-  
-    // Check for three in a row
-    // function areThreeInARow() {
-
-    //   // 012
-    //   if ((Gameboard.getBoard()[0] !== "") && (Gameboard.getBoard[0] === Gameboard.getBoard[1]) && (Gameboard.getBoard[0] === Gameboard.getBoard[2])) {
-    //     return true;
-    //   }
-    //   // 345
-    //   if ((Gameboard.getBoard[3] !== "") && (Gameboard.getBoard[3] === Gameboard.getBoard[4]) && (Gameboard.getBoard[3] === Gameboard.getBoard[5])) {
-    //     return true;
-    //   }
-    //   // 678
-    //   if ((Gameboard.getBoard[6] !== "") && (Gameboard.getBoard[6] === Gameboard.getBoard[7]) && (Gameboard.getBoard[6] === Gameboard.getBoard[8])) {
-    //     return true;
-    //   }
-    //   // 036
-    //   if ((Gameboard.getBoard[0] !== "") && (Gameboard.getBoard[0] === Gameboard.getBoard[3]) && (Gameboard.getBoard[0] === Gameboard.getBoard[6])) {
-    //     return true;
-    //   }
-    //   // 147
-    //   if ((Gameboard.getBoard[1] !== "") && (Gameboard.getBoard[1] === Gameboard.getBoard[4]) && (Gameboard.getBoard[1] === Gameboard.getBoard[7])) {
-    //     return true;
-    //   }
-    //   // 258
-    //   if ((Gameboard.getBoard[2] !== "") && (Gameboard.getBoard[2] === Gameboard.getBoard[5]) && (Gameboard.getBoard[2] === Gameboard.getBoard[8])) {
-    //     return true;
-    //   }
-    //   // 048
-    //   if ((Gameboard.getBoard[0] !== "") && (Gameboard.getBoard[0] === Gameboard.getBoard[4]) && (Gameboard.getBoard[0] === Gameboard.getBoard[8])) {
-    //     return true;
-    //   }
-    //   // 246
-    //   if ((Gameboard.getBoard[2] !== "") && (Gameboard.getBoard[2] === Gameboard.getBoard[4]) && (Gameboard.getBoard[2] === Gameboard.getBoard[6])) {
-    //     return true;
-    //   }
-      
-    //   return false;
-    // }
 
     // Set game Display
     function updateGameDisplay(gameInfo) {
       const gameDisplay = document.querySelector('.gameDisplay');
       gameDisplay.textContent = gameInfo;
     }
-    
     
     function areThreeInARow() {
       const board = Gameboard.getBoard(); // Retrieve the board array
@@ -157,26 +117,18 @@ const Gameboard = (function () {
 
     // When any cell is clicked, do this
     function handleCellClick(event) {
-      console.log(event);
       // Target the clicked cell
       const sqr = event.target;
       // Get correct board array index
       const stringIndex = sqr.getAttribute('data-index');
       // Convert index to an integer, from a string
-      const index = parseInt(stringIndex, 10);
-
-      console.log(`the index is ${ index }`); // not in console
-    
+      const index = parseInt(stringIndex, 10);    
       //  If cell is empty and gameStatus == "playing"
       if ((Gameboard.isCellEmpty(index)) && (Gameboard.getGameStatus() === "playing")) {
         // Change inner text to currentPlayerSymbol    
         sqr.textContent = currentPlayer.marker;
 
-        console.log(`sqr.textContent is ${sqr.textContent}`); // ok
-
         Gameboard.markCell(index, currentPlayer.marker);
-
-        console.log(`Array cell index ${ index } has value =  ${Gameboard.getBoard()[index]}`); // ok
 
         if (areThreeInARow()) {
           console.log(`The Gameboard.getboard() values are  ${Gameboard.getBoard()}`); // ok
@@ -202,12 +154,9 @@ const Gameboard = (function () {
       resetButton.addEventListener('click', Gameboard.resetBoard)
 
       const cells = document.querySelectorAll(".square");
-      console.log(cells);
 
       cells.forEach((cell) => {
         cell.addEventListener('click', handleCellClick);
-        console.log('handle click  added?')
-
       });
     }
       return { addEventListeners };
