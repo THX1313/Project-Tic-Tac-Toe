@@ -2,7 +2,7 @@
 const Gameboard = (function () {
       // Initialize board array
   const board = ["", "", "", "", "", "", "", "", ""];
-  const gameStatus = "playing";
+  let gameStatus = "playing";
 
       // Get cell is empty
       function isCellEmpty(index) {
@@ -11,31 +11,43 @@ const Gameboard = (function () {
 
       // Set cell marker
       function markCell(index, marker) {
-        if (isCellEmpty(index)) {
+        if (isCellEmpty(index)) { // isn't this tested elsewhere?
           board[index] = marker;
           return true;
         }
         return false;
       }
 
+      function getGameStatus() {
+        return gameStatus;
+      }
+  
+      function setGameStatus(newStatus) {
+        gameStatus = newStatus;
+      }
+  
       // Return board array
       function getBoard() {
         return board;
       }
+  
+      function setBoard(updatedBoard) {
+        board = updatedBoard;
+      }
       
       // Reset Gameboard
-      function resetBoard() {
-        board = ["", "", "", "", "", "", "", "", ""];
-        gameStatus = "playing";
-        const cells = document.querySelectorAll('.cell');
-        cells.forEach((cell) => {
-          cell.addEventListener('click', () => cell.textContent = "");
-            });
-        GameController.updateGameDisplay("PlayerX's turn");
-      }
+      // function resetBoard() {
+      //   board = ["", "", "", "", "", "", "", "", ""];
+      //   gameStatus = "playing";
+      //   const cells = document.querySelectorAll('.cell');
+      //   cells.forEach((cell) => {
+      //     cell.addEventListener('click', () => cell.textContent = "");
+      //       });
+      //   GameController.updateGameDisplay("PlayerX's turn");
+      // }
   
       // Expose all the functions defined in the module
-      return { isCellEmpty, markCell, getBoard, resetBoard };
+      return { isCellEmpty, markCell, getBoard, setBoard, getGameStatus, setGameStatus };
     })();
 
   // Player factory function)
@@ -56,57 +68,130 @@ const Gameboard = (function () {
     // Switch current Player
     function switchPlayer() {
       currentPlayer = currentPlayer === playerX ? playerO : playerX;
-      updateGameDisplay(currentPlayer);
+      updateGameDisplay(currentPlayer.name);
     }
   
     // Check for three in a row
-    function areThreeInARow() {
-// 012	if (arr[0] === arr[1] && arr[0] === arr[2])
-// 345
-// 678
+    // function areThreeInARow() {
 
-// 036
-// 147
-// 258
-
-// 048
-// 246
-      if (Gameboard.board) {
-        return true;
-      } else {
-        return false;
-      }
+    //   // 012
+    //   if ((Gameboard.getBoard()[0] !== "") && (Gameboard.getBoard[0] === Gameboard.getBoard[1]) && (Gameboard.getBoard[0] === Gameboard.getBoard[2])) {
+    //     return true;
+    //   }
+    //   // 345
+    //   if ((Gameboard.getBoard[3] !== "") && (Gameboard.getBoard[3] === Gameboard.getBoard[4]) && (Gameboard.getBoard[3] === Gameboard.getBoard[5])) {
+    //     return true;
+    //   }
+    //   // 678
+    //   if ((Gameboard.getBoard[6] !== "") && (Gameboard.getBoard[6] === Gameboard.getBoard[7]) && (Gameboard.getBoard[6] === Gameboard.getBoard[8])) {
+    //     return true;
+    //   }
+    //   // 036
+    //   if ((Gameboard.getBoard[0] !== "") && (Gameboard.getBoard[0] === Gameboard.getBoard[3]) && (Gameboard.getBoard[0] === Gameboard.getBoard[6])) {
+    //     return true;
+    //   }
+    //   // 147
+    //   if ((Gameboard.getBoard[1] !== "") && (Gameboard.getBoard[1] === Gameboard.getBoard[4]) && (Gameboard.getBoard[1] === Gameboard.getBoard[7])) {
+    //     return true;
+    //   }
+    //   // 258
+    //   if ((Gameboard.getBoard[2] !== "") && (Gameboard.getBoard[2] === Gameboard.getBoard[5]) && (Gameboard.getBoard[2] === Gameboard.getBoard[8])) {
+    //     return true;
+    //   }
+    //   // 048
+    //   if ((Gameboard.getBoard[0] !== "") && (Gameboard.getBoard[0] === Gameboard.getBoard[4]) && (Gameboard.getBoard[0] === Gameboard.getBoard[8])) {
+    //     return true;
+    //   }
+    //   // 246
+    //   if ((Gameboard.getBoard[2] !== "") && (Gameboard.getBoard[2] === Gameboard.getBoard[4]) && (Gameboard.getBoard[2] === Gameboard.getBoard[6])) {
+    //     return true;
+    //   }
+      
+    //   return false;
+    // }
 
     // Set game Display
     function updateGameDisplay(gameInfo) {
       const gameDisplay = document.querySelector('.gameDisplay');
       gameDisplay.textContent = gameInfo;
     }
+    
+    
+    function areThreeInARow() {
+      const board = Gameboard.getBoard(); // Retrieve the board array
+    
+      // 012
+      if ((board[0] !== "") && (board[0] === board[1]) && (board[0] === board[2])) {
+        return true;
+      }
+      // 345
+      if ((board[3] !== "") && (board[3] === board[4]) && (board[3] === board[5])) {
+        return true;
+      }
+      // 678
+      if ((board[6] !== "") && (board[6] === board[7]) && (board[6] === board[8])) {
+        return true;
+      }
+      // 036
+      if ((board[0] !== "") && (board[0] === board[3]) && (board[0] === board[6])) {
+        return true;
+      }
+      // 147
+      if ((board[1] !== "") && (board[1] === board[4]) && (board[1] === board[7])) {
+        return true;
+      }
+      // 258
+      if ((board[2] !== "") && (board[2] === board[5]) && (board[2] === board[8])) {
+        return true;
+      }
+      // 048
+      if ((board[0] !== "") && (board[0] === board[4]) && (board[0] === board[8])) {
+        return true;
+      }
+      // 246
+      if ((board[2] !== "") && (board[2] === board[4]) && (board[2] === board[6])) {
+        return true;
+      }
+      return false;
+    }  
 
     // When any cell is clicked, do this
     function handleCellClick(event) {
+      console.log(event);
       // Target the clicked cell
-      const cell = event.target;
+      const sqr = event.target;
       // Get correct board array index
-      const index = cell.dataset.index; // parse int?
+      const stringIndex = sqr.getAttribute('data-index');
+      // Convert index to an integer, from a string
+      const index = parseInt(stringIndex, 10);
+
+      console.log(`the index is ${ index }`); // not in console
     
       //  If cell is empty and gameStatus == "playing"
-      if (Gameboard.isCellEmpty(index) && Gameboard.gameStatus === "playing") {
+      if ((Gameboard.isCellEmpty(index)) && (Gameboard.getGameStatus() === "playing")) {
         // Change inner text to currentPlayerSymbol    
-        cell.textContent = currentPlayer.marker;
+        sqr.textContent = currentPlayer.marker;
+
+        console.log(`sqr.textContent is ${sqr.textContent}`); // ok
+
         Gameboard.markCell(index, currentPlayer.marker);
 
+        console.log(`Array cell index ${ index } has value =  ${Gameboard.getBoard()[index]}`); // ok
+
         if (areThreeInARow()) {
-          Gameboard.gameStatus = `${currentPlayer} wins!`;
-          displayText = Gameboard.gameStatus;
+          console.log(`The Gameboard.getboard() values are  ${Gameboard.getBoard()}`); // ok
+
+          Gameboard.setGameStatus(`${currentPlayer.name} wins!`); // does this work? is it needed?
+
+          displayText = (`${currentPlayer.name} wins!`);
           updateGameDisplay(displayText);
         } // Else if boardArray contains isEmpty
-        else if (Gameboard.board.includes("")) {
+        else if (Gameboard.getBoard().includes("")) {
           switchPlayer();
         } // Else change gameStatus to It’s a tie
         else {
-          Gameboard.gameStatus === `It’s a tie`;
-          displayText = Gameboard.gameStatus
+          Gameboard.setGameStatus(`It’s a tie`);
+          displayText = Gameboard.getGameStatus();
           updateGameDisplay(displayText);
         }
       }
@@ -116,95 +201,41 @@ const Gameboard = (function () {
       const resetButton = document.querySelector('.resetButton');
       resetButton.addEventListener('click', Gameboard.resetBoard)
 
-      const cells = document.querySelectorAll('.cell');
+      const cells = document.querySelectorAll(".square");
+      console.log(cells);
+
       cells.forEach((cell) => {
         cell.addEventListener('click', handleCellClick);
+        console.log('handle click  added?')
+
       });
     }
-      return { addEventListeners, updateGameDisplay };
+      return { addEventListeners };
   })();
 
 GameController.addEventListeners();
-GameController.updateGameDisplay();
-
-
-// Check current player
-//  if button’s inner text is empty
-// Change inner text to currentPlayerSymbol
-
-// if three in a row
-// Change gameStatusButton to currentPlayer wins!
-// Else if boardArray contains isEmpty
-// Toggle current player
-// Else change gameStatusButton to It’s a tie
-
-// const GameBoard = {};
-// const isEmpty = true;
-// const player1 = 'Player 1';
-// const player2 = 'Player 2';
-
-// const startingArray =
-//     [isEmpty, isEmpty, isEmpty,
-
-//     isEmpty, isEmpty, isEmpty,
-    
-//         isEmpty, isEmpty, isEmpty];
-    
-// const gameBoardArray = startingArray;
-
-// let currentPlayer = player1;
-
-// displayGameBoard();
-
-
-// do {
-//     if (!foundThreeInARow()) {
-//         letPlay();
-//     } else {
-//         break;
-//     }
-// } while (gameBoardArray.includes(isEmpty));
-
-
-// if (gameBoardArray.includes(isEmpty)) {
-//     displayWinner(!nextPlayer);
-// } else {
-//     displayWinner('tie');
-// }
-
-// function letPlay() {
-//     // next player play
-//     // toggle next player
-// }
-
-// function foundThreeInARow() {
-
-// }
-
-// function displayGameBoard() {
-    
-// }
-
-// function displayWinner(winner) {
-//     if (winner === 'tie') {
-//         alert('You tied!');
-//     } else {
-//         alert(`The winner is: ${winner}`);
-//     }
-// }
 
 // You’re going to store the gameboard as an array inside of a Gameboard object, so start there!
-// Your players are also going to be stored in objects, and you’re probably going to want an object to control the flow of the game itself.
+
+// Your players are also going to be stored in objects.
+
+// you’re probably going to want an object to control the flow of the game itself.
+
 // Your main goal here is to have as little global code as possible. Try tucking everything away inside of a module or factory.
+
 // Rule of thumb: 
-// If you only ever need ONE of something(gameBoard, displayController), use a module[This is easily achievable with IIFEs(Immediately Invoked Function Expression) which are simply created by wrapping your factory function in parentheses and immediately calling(invoking) it with the addition of trailing parenthesis, (....)( ) ].
+// If you only ever need ONE of something(gameBoard, displayController), use a module.
+
 // If you need multiples of something(players!), create them with factories.
 
 // Set up your HTML and write a JavaScript function that will render the contents of the gameboard array to the webpage (for now you can just manually fill in the array with "X"s and "O"s)
 
 // Build the functions that allow players to add marks to a specific spot on the board, and then tie it to the DOM, letting players click on the gameboard to place their marker. Don’t forget the logic that keeps players from playing in spots that are already taken!
 
-// Think carefully about where each bit of logic should reside. Each little piece of functionality should be able to fit in the GAME, PLAYER, or GAMEBOARD objects. Take care to put them in “logical” places. Spending a little time brainstorming here can make your life much easier later!
+// Think carefully about where each bit of logic should reside. Each little piece of functionality should be able to fit in the GAME, PLAYER, or GAMEBOARD objects.
+
+//Take care to put them in “logical” places.Spending a little time brainstorming here can make your life much easier later!
+
 // If you’re having trouble, Building a house from the inside out is a great article that lays out a highly applicable example of how you might organize your code for this project.
 
 // Build the logic that checks for when the game is over! Should check for 3-in-a-row and a tie.
