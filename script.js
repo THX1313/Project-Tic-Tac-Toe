@@ -40,13 +40,13 @@ const playerO = Player("Player O", "O");
 const GameController = (() => {
   let currentPlayer = playerX;
   let playerName = "X";
-  let gameStatus = "playing";
+  let gameStatus = "!playing";
 
   function switchPlayer() {
     currentPlayer = currentPlayer === playerX ? playerO : playerX;
 
     if (currentPlayer === playerO) {
-      updateGameDisplay(`${currentPlayer.name}'s Turn`);
+      updateGameDisplay(`${playerName}'s Opponent's Turn`);
     } else {
       updateGameDisplay(`${playerName}'s Turn`);
     }
@@ -55,22 +55,6 @@ const GameController = (() => {
   function updateGameDisplay(gameInfo) {
     const gameDisplay = document.querySelector('.gameDisplay');
     gameDisplay.textContent = gameInfo;
-  }
-
-  function resetBoard() {
-    Gameboard.setBoard(["", "", "", "", "", "", "", "", ""]);
-    gameStatus = "playing";
-    // currentPlayer = playerX;
-    const squares = document.querySelectorAll('.square');
-    squares.forEach((sqr) => {
-      sqr.textContent = "";
-    });
-
-    if (playerName === "X")
-    updateGameDisplay(`${currentPlayer.name}'s Turn`);
-    else {
-      updateGameDisplay(`${playerName}'s Turn`);
-    }
   }
 
   function areThreeInARow(board) {
@@ -100,7 +84,12 @@ const GameController = (() => {
 
       if (areThreeInARow(Gameboard.getBoard())) {
         gameStatus = "!playing";
-        updateGameDisplay(`${currentPlayer.name} wins!`);
+
+        if (currentPlayer === playerO) {
+          updateGameDisplay(`${playerName}'s Opponent wins!`);
+        } else {
+          updateGameDisplay(`${playerName} wins!`);
+        }
       } else if (Gameboard.getBoard().includes("")) {
         switchPlayer();
       } else {
@@ -110,15 +99,46 @@ const GameController = (() => {
     }
   }
 
-  function submitFormInputs() { // event?
+  function resetBoard() {
+    Gameboard.setBoard(["", "", "", "", "", "", "", "", ""]);
+    gameStatus = "playing";
+    currentPlayer = playerX;
+    // currentPlayer = playerX;
+    const squares = document.querySelectorAll('.square');
+    squares.forEach((sqr) => {
+      sqr.textContent = "";
+    });
+
+    // if (playerName === "X")
+    // updateGameDisplay(`${currentPlayer.name}'s Turn`);
+    // else {
+    //   updateGameDisplay(`${playerName}'s Turn`);
+    // }
+    // updateGameDisplay(`Enter new name or play as ${playerName}`);
+    updateGameDisplay(`You may start or enter a new name`);
+
+// if a new name is entered, it would be nice to update the display!!
+
+  }
+
+  function submitFormInputs(event) { //
     // Get the name of the user and their choice.
+    event.preventDefault();
+
     const name = document.querySelector('input[name="name"]').value;
     playerName = name;
+
+    if (playerName === "")
+      updateGameDisplay("ENTER YOUR NAME");
+    else if (currentPlayer !== playerO) {
+          // only if  the game isn't displaying the other guy's turn should the updateGameDisplay () be called
+      updateGameDisplay(`${playerName}'s Turn`);
+      gameStatus = "playing";
+    }
+
     console.log(name);
     console.log(playerName);
 
-    // cant read null !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // const selectedOpponent = document.querySelector('input[name="selectedOpponent"]:checked').value;
     const selectedOpponent = document.querySelector('input[name="selectedOpponent"]:checked');
     if (selectedOpponent) {
       // The radio button is checked.
