@@ -2,14 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    
+    <!-- helps some with responsiveness -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="style.css">
     <title>Tic Tac Toe</title>
 </head>
 <body>
     <div class="container">
-        <div class="gameBoard"  id="game-board">
-            <button class="gameDisplay">Player X</button>
+            <div class="gameBoard" id="game-board">
+                <form action="POST" method="POST" id="myForm">
+
+                <div class="nameField">
+                    <label  id="playerX" for="title">Player X</label>
+                    <input type="text" id="name" name="name" placeholder="Your Name">
+                </div>
+                
+                <div class="opponentField">
+                    <div id="playerO">Player O</div>     
+                    <input type="radio" id="synthetic" name="selectedOpponent" value="synthetic" />
+                    <label id="synthetic" for="synthetic">Synthetic</label>
+
+                    <input type="radio" id="organic" name="playerO" value="organic" checked/>
+                    <label id="organic" for="organic">Organic</label>
+                </div>
+                
+            </form>
+            <button type="submit" class="gameDisplay">E N T E R</button>
+             <!-- Your Name's turn, Opponent's turn, Outcome -->
+
+            <!-- <button >Player X</button> -->
             <button class="square" id="square0" data-index="0"></button>
             <button class="square" id="square1" data-index="1"></button>
             <button class="square" id="square2" data-index="2"></button>
@@ -19,7 +42,8 @@
             <button class="square" id="square6" data-index="6"></button>
             <button class="square" id="square7" data-index="7"></button>
             <button class="square" id="square8" data-index="8"></button>
-            <button class="resetButton">R E S E T</button>
+
+            <button id="resetButton" type="button" class="resetButton">R E S E T</button>
         </div>
     </div> 
     <script src="script.js"></script>
