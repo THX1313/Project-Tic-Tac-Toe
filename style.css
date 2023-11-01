@@ -61,9 +61,6 @@
     align-content: center;
 }
 
-#playerX {
-    
-}
 #name {
     text-align: center;
     font-size: var(--fs-300);
