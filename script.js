@@ -39,11 +39,17 @@ const playerO = Player("Player O", "O");
 
 const GameController = (() => {
   let currentPlayer = playerX;
+  let playerName = "X";
   let gameStatus = "playing";
 
   function switchPlayer() {
     currentPlayer = currentPlayer === playerX ? playerO : playerX;
-    updateGameDisplay(currentPlayer.name);
+
+    if (currentPlayer === playerO) {
+      updateGameDisplay(`${currentPlayer.name}'s Turn`);
+    } else {
+      updateGameDisplay(`${playerName}'s Turn`);
+    }
   }
 
   function updateGameDisplay(gameInfo) {
@@ -54,12 +60,17 @@ const GameController = (() => {
   function resetBoard() {
     Gameboard.setBoard(["", "", "", "", "", "", "", "", ""]);
     gameStatus = "playing";
-    currentPlayer = playerX;
+    // currentPlayer = playerX;
     const squares = document.querySelectorAll('.square');
     squares.forEach((sqr) => {
       sqr.textContent = "";
     });
-    updateGameDisplay(currentPlayer.name);
+
+    if (playerName === "X")
+    updateGameDisplay(`${currentPlayer.name}'s Turn`);
+    else {
+      updateGameDisplay(`${playerName}'s Turn`);
+    }
   }
 
   function areThreeInARow(board) {
@@ -99,6 +110,36 @@ const GameController = (() => {
     }
   }
 
+  function submitFormInputs() { // event?
+    // Get the name of the user and their choice.
+    const name = document.querySelector('input[name="name"]').value;
+    playerName = name;
+    console.log(name);
+    console.log(playerName);
+
+    // cant read null !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // const selectedOpponent = document.querySelector('input[name="selectedOpponent"]:checked').value;
+    const selectedOpponent = document.querySelector('input[name="selectedOpponent"]:checked');
+    if (selectedOpponent) {
+      // The radio button is checked.
+      // Get the value of the radio button.
+      console.log(selectedOpponent.value);
+    }
+    
+    // Start or reset the game, depending on the user's choice.
+    if (selectedOpponent.value === 'synthetic') {
+      // Start the new version of game. Synthetic pics random empty cell.
+      console.log(selectedOpponent.value);
+
+    
+
+    } else if (selectedOpponent.value === 'organic') {
+            // Start the default game
+            console.log(selectedOpponent.value);
+
+    }
+  }
+
   function addEventListeners() {
     const cells = document.querySelectorAll(".square");
     cells.forEach((cell) => {
@@ -107,6 +148,9 @@ const GameController = (() => {
 
     const resetButton = document.querySelector('.resetButton');
     resetButton.addEventListener('click', resetBoard);
+
+    const submitButton = document.querySelector('#submitButton');
+    submitButton.addEventListener('click', submitFormInputs);
   }
 
   return { addEventListeners };
