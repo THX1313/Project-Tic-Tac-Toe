@@ -26,11 +26,6 @@ const Player = (name, marker) => {
 const playerX = Player("Player X", "X");
 const playerO = Player("Player O", "O");
 
-
-// Optional - If you’re feeling ambitious create an AI so that a player can play against the computer!
-// Start by just getting the computer to make a random legal move.
-// Once you’ve gotten that, work on making the computer smart. It is possible to create an unbeatable AI using the minimax algorithm (read about it here, some googling will help you out with this one)
-
 const GameController = (() => {
   let currentOpponent;
   let currentPlayer = playerX;
@@ -63,10 +58,8 @@ const GameController = (() => {
     }
     return false;
   }
-
   function handleOrganicMove(selectedIndex) {
     Gameboard.markCell(selectedIndex, currentPlayer.marker);
-
     if (areThreeInARow(Gameboard.getBoard())) {
       gameStatus = "!playing";
       if (currentPlayer === playerO) {
@@ -86,11 +79,9 @@ const GameController = (() => {
       if (areThreeInARow(Gameboard.getBoard())) {
         gameStatus = "!playing";
         updateGameDisplay(`${playerName} wins!`);
-
       } else if (!(Gameboard.getBoard().includes(""))) {
         gameStatus = "!playing";
         updateGameDisplay("It’s a tie");
-      
       } else {
         switchPlayer();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -203,9 +194,6 @@ const GameController = (() => {
         // const board = ['X', '', 'O', 'X', 'O', '', '', '', 'X']; // Example board state
         // const bestMove = findBestMove(board);
         // console.log('Best Move:', bestMove);
-
-
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         let randomCell;
@@ -265,11 +253,6 @@ const GameController = (() => {
       gameStatus = "playing";
     }
     const selectedOpponent = document.querySelector('input[name="selectedOpponent"]:checked');
-    if (selectedOpponent) {
-      // The radio button is checked.
-      // Get the value of the radio button.
-      console.log(selectedOpponent.value);
-    }//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if (selectedOpponent.value === 'synthetic') {
       currentOpponent = selectedOpponent.value; 
     } else if (selectedOpponent.value === 'organic') {
